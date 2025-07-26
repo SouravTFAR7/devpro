@@ -16,5 +16,7 @@ phases:
 
 artifacts:
   files:
+    - 'appspec.yml'
+    - 'scripts/**/*'
     - '**/*'
-  base-directory: devpro/build   # Output build folder of React
+  base-directory: devpro/build
