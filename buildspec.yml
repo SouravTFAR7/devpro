@@ -18,5 +18,5 @@ artifacts:
   files:
     - 'appspec.yml'
     - 'scripts/**/*'
-    - '**/*'
-  base-directory: devpro/build
+    - 'build/**/*'
+  base-directory: devpro
