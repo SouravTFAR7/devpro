@@ -30,7 +30,7 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
       {
         Effect   = "Allow",
         Action   = ["codebuild:StartBuild", "codebuild:BatchGetBuilds"],
-        Resource = aws_codebuild_project.build_project.arn
+        Resource = "*"
       },
       {
         Effect   = "Allow",
@@ -102,6 +102,12 @@ resource "aws_iam_role" "codedeploy_role" {
   })
 }
 
+# Attach AWS Managed Policy for CodeDeploy
+resource "aws_iam_role_policy_attachment" "codedeploy_managed_policy" {
+  role       = aws_iam_role.codedeploy_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
+}
+
 resource "aws_iam_role_policy" "codedeploy_policy" {
   name = "${var.project_name}-codedeploy-policy"
   role = aws_iam_role.codedeploy_role.id
@@ -124,7 +130,7 @@ resource "aws_iam_role_policy" "codedeploy_policy" {
   })
 }
 
-# ------------------------------------------ EC2 Instance Role for Deployment -------------------------------------------
+# ------------------------------------------ EC2 Instance Role -------------------------------------------
 resource "aws_iam_role" "ec2_role" {
   name = "${var.project_name}-ec2-role"
 
@@ -161,7 +167,8 @@ resource "aws_iam_role_policy" "ec2_role_policy" {
         Action   = [
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
-          "logs:PutLogEvents"
+          "logs:PutLogEvents",
+          "codedeploy:*"
         ],
         Resource = "*"
       }
@@ -169,7 +176,7 @@ resource "aws_iam_role_policy" "ec2_role_policy" {
   })
 }
 
-# Attach Instance Profile for EC2
+# Instance Profile for EC2
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
   name = "${var.project_name}-ec2-instance-profile"
   role = aws_iam_role.ec2_role.name
