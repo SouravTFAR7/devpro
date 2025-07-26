@@ -5,16 +5,16 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - cd $CODEBUILD_SRC_DIR   # Ensure we're at repo root
-      - echo Installing dependencies...
+      - echo "Installing dependencies..."
+      - cd $CODEBUILD_SRC_DIR/devpro
       - npm install
   build:
     commands:
-      - cd $CODEBUILD_SRC_DIR
-      - echo Building React app...
+      - echo "Building React app..."
+      - cd $CODEBUILD_SRC_DIR/devpro
       - npm run build
 
 artifacts:
   files:
     - '**/*'
-  base-directory: build
+  base-directory: devpro/build   # Output build folder of React
