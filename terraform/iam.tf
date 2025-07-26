@@ -21,7 +21,12 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
     Statement = [
       {
         Effect   = "Allow",
-        Action   = ["s3:GetObject", "s3:GetObjectVersion", "s3:GetBucketVersioning", "s3:PutObject"],
+        Action   = [
+          "s3:GetObject",
+          "s3:GetObjectVersion",
+          "s3:GetBucketVersioning",
+          "s3:PutObject"
+        ],
         Resource = [
           aws_s3_bucket.codepipeline_artifacts.arn,
           "${aws_s3_bucket.codepipeline_artifacts.arn}/*"
@@ -29,17 +34,29 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
       },
       {
         Effect   = "Allow",
-        Action   = ["codebuild:StartBuild", "codebuild:BatchGetBuilds"],
+        Action   = [
+          "codebuild:StartBuild",
+          "codebuild:BatchGetBuilds"
+        ],
         Resource = "*"
       },
       {
         Effect   = "Allow",
-        Action   = ["codestar-connections:UseConnection"],
+        Action   = [
+          "codestar-connections:UseConnection"
+        ],
         Resource = "*"
       },
       {
         Effect   = "Allow",
-        Action   = ["codedeploy:CreateDeployment", "codedeploy:GetDeployment", "codedeploy:GetDeploymentConfig"],
+        Action   = [
+          "codedeploy:CreateDeployment",
+          "codedeploy:GetDeployment",
+          "codedeploy:GetDeploymentConfig",
+          "codedeploy:RegisterApplicationRevision",
+          "codedeploy:GetApplication",
+          "codedeploy:List*"
+        ],
         Resource = "*"
       }
     ]
@@ -78,7 +95,11 @@ resource "aws_iam_role_policy" "codebuild_policy" {
       },
       {
         Effect   = "Allow",
-        Action   = ["s3:GetObject", "s3:PutObject", "s3:GetBucketVersioning"],
+        Action   = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:GetBucketVersioning"
+        ],
         Resource = [
           aws_s3_bucket.codepipeline_artifacts.arn,
           "${aws_s3_bucket.codepipeline_artifacts.arn}/*"
