@@ -5,10 +5,12 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
+      - cd $CODEBUILD_SRC_DIR   # Ensure we're at repo root
       - echo Installing dependencies...
       - npm install
   build:
     commands:
+      - cd $CODEBUILD_SRC_DIR
       - echo Building React app...
       - npm run build
 
